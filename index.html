@@ -1,0 +1,2788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Calendario 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy-900: #0f1a2e;
+            --navy-800: #162240;
+            --navy-700: #1e3055;
+            --navy-600: #2c4f7c;
+            --gold-300: #f0d78c;
+            --gold-400: #d4a843;
+            --gold-500: #b8860b;
+            --gold-600: #9a7209;
+            --white: #ffffff;
+            --gray-50: #f8f9fa;
+            --gray-100: #f1f3f5;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --border: #e2e6ea;
+            --radius: 12px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+            --cat-feriado: #be123c;
+            
+            /* Light theme (default) */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-gradient-start: #eef1f5;
+            --bg-gradient-end: #dde3eb;
+            --text-primary: #343a40;
+            --text-secondary: #6c757d;
+            --card-bg: #ffffff;
+            --holiday-bg: #f1f5f9;
+            --holiday-hover: #e2e8f0;
+        }
+
+        [data-theme="dark"] {
+            --navy-900: #1a1f2e;
+            --navy-800: #252a3a;
+            --bg-primary: #1e293b;
+            --bg-secondary: #0f172a;
+            --bg-gradient-start: #0f172a;
+            --bg-gradient-end: #1e293b;
+            --text-primary: #ffffff;
+            --text-secondary: #e2e8f0;
+            --card-bg: #1e293b;
+            --border: #334155;
+            --gray-50: #334155;
+            --gray-100: #475569;
+            --gray-200: #475569;
+            --gray-300: #64748b;
+            --gray-400: #64748b;
+            --gray-500: #cbd5e1;
+            --gray-600: #e2e8f0;
+            --gray-700: #f1f5f9;
+            --gray-800: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+            --holiday-bg: #334155;
+            --holiday-hover: #475569;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: linear-gradient(145deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* ═══════════ WELCOME MODAL ═══════════ */
+        .welcome-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 26, 46, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+        .welcome-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .welcome-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 48px 40px;
+            max-width: 440px;
+            width: 90%;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .welcome-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: linear-gradient(145deg, var(--gold-500), var(--gold-400));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(184,134,11,0.3);
+        }
+        .welcome-icon svg {
+            width: 40px;
+            height: 40px;
+            color: var(--white);
+        }
+        .welcome-card h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2em;
+            font-weight: 800;
+            color: var(--navy-900);
+            margin-bottom: 12px;
+        }
+        .welcome-card p {
+            color: var(--gray-600);
+            font-size: 1.05em;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        .welcome-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--gray-300);
+            border-radius: 12px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .welcome-input:focus {
+            outline: none;
+            border-color: var(--gold-500);
+            box-shadow: 0 0 0 4px rgba(184,134,11,0.1);
+        }
+        .welcome-options {
+            margin-bottom: 24px;
+        }
+        .welcome-options-label {
+            font-size: 0.95em;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 12px;
+            display: block;
+        }
+        .welcome-radio-group {
+            display: flex;
+            gap: 12px;
+        }
+        .welcome-radio-option {
+            flex: 1;
+            position: relative;
+        }
+        .welcome-radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .welcome-radio-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 12px;
+            border: 2px solid var(--gray-300);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--white);
+        }
+        .welcome-radio-option input:checked + .welcome-radio-label {
+            border-color: var(--gold-500);
+            background: linear-gradient(145deg, rgba(184,134,11,0.05), rgba(184,134,11,0.1));
+        }
+        .welcome-radio-label:hover {
+            border-color: var(--gold-400);
+        }
+        .welcome-radio-icon {
+            width: 40px;
+            height: 40px;
+            color: var(--gray-500);
+            transition: color 0.2s;
+        }
+        .welcome-radio-option input:checked + .welcome-radio-label .welcome-radio-icon {
+            color: var(--gold-500);
+        }
+        .welcome-radio-title {
+            font-weight: 600;
+            color: var(--gray-800);
+            font-size: 0.95em;
+        }
+        .welcome-radio-desc {
+            font-size: 0.8em;
+            color: var(--gray-600);
+            text-align: center;
+        }
+        .welcome-btn {
+            width: 100%;
+            padding: 16px 32px;
+            background: linear-gradient(145deg, var(--gold-500), var(--gold-600));
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 16px rgba(184,134,11,0.3);
+        }
+        .welcome-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(184,134,11,0.4);
+        }
+        .welcome-btn:active {
+            transform: translateY(0);
+        }
+
+        /* ═══════════ HEADER ═══════════ */
+        header {
+            background: linear-gradient(145deg, var(--navy-900) 0%, var(--navy-800) 60%, var(--navy-700) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(184,134,11,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(44,95,158,0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .header-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 32px 40px 28px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .header-emblem {
+            width: 64px; height: 64px;
+            background: linear-gradient(145deg, var(--gold-500), var(--gold-400));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.15), 0 4px 16px rgba(0,0,0,0.3);
+        }
+        .header-emblem svg { width: 32px; height: 32px; color: var(--navy-900); }
+        .header-text h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2em; font-weight: 800;
+            color: var(--white); letter-spacing: -0.3px; line-height: 1.15;
+        }
+        .header-text .subtitle {
+            font-size: 1.1em; color: var(--gold-300);
+            font-weight: 600; margin-top: 4px; letter-spacing: 0.5px;
+        }
+        .header-credit {
+            font-size: 0.72em;
+            color: rgba(255, 255, 255, 0.28);
+            font-weight: 400;
+            margin-top: 5px;
+            letter-spacing: 0.3px;
+            font-style: italic;
+        }
+        .header-actions {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .btn-header {
+            display: flex; align-items: center; gap: 6px;
+            padding: 7px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.7);
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.8em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-header:hover {
+            background: rgba(255,255,255,0.18);
+            color: var(--white);
+            border-color: rgba(255,255,255,0.35);
+        }
+        .btn-header svg { width: 15px; height: 15px; flex-shrink: 0; }
+        .btn-header-label { white-space: nowrap; }
+
+        /* ═══════════ MAIN LAYOUT ═══════════ */
+        .main-wrapper {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 24px 40px 60px;
+        }
+
+        /* ═══════════ CONTROLS BAR ═══════════ */
+        .controls-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .controls-left {
+            display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+        }
+        .controls-right {
+            display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+        }
+        .month-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--card-bg);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .month-selector-label {
+            font-size: 0.88em;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-right: 4px;
+        }
+        [data-theme="dark"] .month-selector-label {
+            color: #f1f5f9;
+            font-weight: 700;
+        }
+        .month-selector select {
+            padding: 6px 32px 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.88em;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            cursor: pointer;
+            transition: all 0.15s;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236c757d'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 16px;
+        }
+        [data-theme="dark"] .month-selector select {
+            color: #ffffff;
+            font-weight: 600;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23f1f5f9'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        }
+        .month-selector select:hover {
+            border-color: var(--gold-500);
+        }
+        .month-selector select:focus {
+            outline: none;
+            border-color: var(--gold-500);
+            box-shadow: 0 0 0 3px rgba(184,134,11,0.1);
+        }
+        .btn-month-jump {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--gold-500);
+            color: var(--white);
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-month-jump:hover {
+            background: var(--gold-600);
+            transform: translateY(-1px);
+        }
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.88em;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        [data-theme="dark"] .filter-btn {
+            color: #f1f5f9;
+            font-weight: 600;
+        }
+        .filter-btn:hover { border-color: var(--gold-500); color: var(--text-primary); }
+        .filter-btn.active {
+            background: var(--navy-900);
+            color: var(--white);
+            border-color: var(--navy-900);
+        }
+        [data-theme="dark"] .filter-btn.active {
+            background: var(--gold-500);
+            color: #0f172a;
+            border-color: var(--gold-500);
+        }
+
+        /* ═══════════ CALENDAR GRID ═══════════ */
+        .month-block {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            margin-bottom: 28px;
+            overflow: hidden;
+            transition: opacity 0.4s ease-in-out, background 0.3s ease;
+        }
+        .month-block.hidden {
+            display: none;
+        }
+        .month-block.fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeInMonth {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .month-title-bar {
+            background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 100%);
+            color: var(--white);
+            padding: 16px 24px;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1px;
+            background: var(--gray-200);
+        }
+        .cal-header {
+            background: var(--gray-100);
+            padding: 10px 4px;
+            text-align: center;
+            font-size: 0.78em;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        [data-theme="dark"] .cal-header {
+            color: #f1f5f9;
+            font-weight: 700;
+        }
+        .cal-day {
+            background: var(--card-bg);
+            min-height: 100px;
+            padding: 8px;
+            position: relative;
+            transition: background 0.15s;
+            cursor: default;
+        }
+        .cal-day:hover { background: var(--bg-secondary); }
+        .cal-day.empty { background: var(--bg-secondary); cursor: default; }
+        .cal-day .day-add-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 22px; height: 22px;
+            border-radius: 6px;
+            border: none;
+            background: var(--gold-500);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.15s, transform 0.15s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .cal-day:hover .day-add-btn { opacity: 1; }
+        .cal-day .day-add-btn:hover { transform: scale(1.15); background: var(--gold-600); }
+        .cal-day .day-add-btn.pulse-animation {
+            opacity: 1 !important;
+            animation: pulseButton 0.6s ease-out;
+        }
+        /* Animación de señalización para días vacíos */
+        .cal-day.empty-day .day-add-btn {
+            opacity: 1;
+            animation: signalPulse 2.5s ease-in-out infinite;
+        }
+        .cal-day.empty-day:hover .day-add-btn {
+            animation: none;
+            transform: scale(1.15);
+            background: var(--gold-600);
+        }
+        @keyframes signalPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(184,134,11,0.4);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 0 6px rgba(184,134,11,0);
+            }
+        }
+        @keyframes pulseButton {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(184,134,11,0.7);
+            }
+            50% {
+                transform: scale(1.2);
+                box-shadow: 0 0 0 8px rgba(184,134,11,0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(184,134,11,0);
+            }
+        }
+        .cal-day:focus {
+            outline: none;
+            box-shadow: inset 0 0 0 2px var(--gold-500);
+            background: #fffbeb;
+        }
+        .day-num {
+            font-size: 0.75em;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        [data-theme="dark"] .day-num {
+            color: #cbd5e1;
+        }
+        .cal-day.has-holiday .day-num {
+            background: var(--cat-feriado);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .cal-day.has-holiday {
+            background: var(--holiday-bg) !important;
+        }
+        .cal-day.has-holiday:hover {
+            background: var(--holiday-hover) !important;
+        }
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            margin-top: 4px;
+        }
+        .task-item {
+            font-size: 0.7em;
+            padding: 4px 6px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: all 0.12s;
+            border-left: 3px solid;
+        }
+        [data-theme="dark"] .task-item {
+            font-weight: 600;
+            color: #ffffff !important;
+            border-left: none;
+            border-top: 2px solid;
+            border-bottom: 2px solid;
+            background: rgba(255, 255, 255, 0.05) !important;
+        }
+        [data-theme="dark"] .task-item:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+        .task-item:hover {
+            transform: translateX(2px);
+            box-shadow: var(--shadow-sm);
+        }
+        .task-item.done {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+        .task-icon {
+            width: 10px;
+            height: 10px;
+            flex-shrink: 0;
+        }
+        .task-text {
+            flex: 1;
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .task-time {
+            font-size: 0.85em;
+            opacity: 0.7;
+            flex-shrink: 0;
+        }
+
+        /* ═══════════ MODALS ═══════════ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 26, 46, 0.6);
+            backdrop-filter: blur(6px);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s;
+        }
+        .modal-overlay.active { display: flex; }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            max-width: 520px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideUp 0.25s ease-out;
+        }
+        .modal.modal-wide {
+            max-width: 680px;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-header {
+            padding: 24px 28px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-header h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        [data-theme="dark"] .modal-header h2 {
+            color: #ffffff;
+        }
+        .modal-close {
+            width: 32px; height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-close:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        .modal-body {
+            padding: 20px 32px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-label {
+            display: block;
+            font-size: 0.88em;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        [data-theme="dark"] .form-label {
+            color: #f1f5f9;
+            font-weight: 700;
+        }
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.95em;
+            transition: all 0.15s;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        [data-theme="dark"] .form-input,
+        [data-theme="dark"] .form-textarea {
+            color: #ffffff;
+            font-weight: 500;
+        }
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--gold-500);
+            box-shadow: 0 0 0 3px rgba(184,134,11,0.1);
+        }
+        .form-textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .form-row-with-button {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            align-items: end;
+            margin-bottom: 16px;
+        }
+        .btn-save-task {
+            width: 100%;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+        }
+        .btn-save-task svg {
+            flex-shrink: 0;
+        }
+        .color-picker-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .color-preview {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            border: 2px solid var(--gray-300);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .color-preview:hover {
+            transform: scale(1.05);
+            border-color: var(--gray-400);
+        }
+        .color-input-native {
+            opacity: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+        .color-preview-demo {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid;
+            font-size: 0.85em;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .color-preset-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .color-preset {
+            position: relative;
+            height: 56px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s;
+            overflow: hidden;
+        }
+        .color-preset::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-left: 4px solid;
+            border-left-color: inherit;
+            background: currentColor;
+            opacity: 0.15;
+        }
+        .color-preset:hover {
+            transform: scale(1.1);
+            border-color: rgba(0,0,0,0.3);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .color-preset.selected {
+            border-color: var(--navy-900);
+            box-shadow: 0 0 0 3px rgba(184,134,11,0.3);
+            transform: scale(1.05);
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 0.9em;
+            color: var(--text-primary);
+        }
+        .checkbox-label input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .modal-actions {
+            padding: 12px 32px 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: none;
+        }
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        .btn-secondary:hover {
+            background: var(--gray-300);
+        }
+        .btn-primary {
+            background: var(--gold-500);
+            color: var(--white);
+            box-shadow: 0 2px 8px rgba(184,134,11,0.25);
+        }
+        .btn-primary:hover {
+            background: var(--gold-600);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(184,134,11,0.3);
+        }
+        .btn-danger {
+            background: #dc2626;
+            color: var(--white);
+        }
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        /* Detail Modal specific */
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .detail-color-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .detail-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        [data-theme="dark"] .detail-title {
+            color: #ffffff;
+        }
+        .detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+        .detail-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+            color: var(--text-primary);
+        }
+        [data-theme="dark"] .detail-meta-item {
+            color: #f1f5f9;
+            font-weight: 600;
+        }
+        .detail-meta-item svg {
+            width: 16px;
+            height: 16px;
+            color: var(--text-secondary);
+        }
+        .detail-notes {
+            background: var(--bg-secondary);
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 3px solid var(--gold-500);
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        /* Task picker modal */
+        .task-picker-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .task-picker-item {
+            padding: 16px;
+            border-radius: 8px;
+            border: 2px solid var(--gray-200);
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .task-picker-item:hover {
+            border-color: var(--gold-500);
+            background: var(--gray-50);
+        }
+        .task-picker-color {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+        .task-picker-content {
+            flex: 1;
+        }
+        .task-picker-title {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 4px;
+        }
+        .task-picker-time {
+            font-size: 0.85em;
+            color: var(--gray-600);
+        }
+
+        /* Print modal */
+        .print-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .print-option-card {
+            padding: 24px 20px;
+            border: 2px solid var(--gray-300);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            background: var(--white);
+        }
+        .print-option-card:hover {
+            border-color: var(--gold-400);
+            background: var(--gray-50);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .print-option-card.selected {
+            border-color: var(--gold-500);
+            background: linear-gradient(145deg, rgba(184,134,11,0.05), rgba(184,134,11,0.1));
+            box-shadow: 0 0 0 3px rgba(184,134,11,0.1);
+        }
+        .print-option-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 16px;
+            color: var(--gray-500);
+            transition: color 0.2s;
+        }
+        .print-option-card.selected .print-option-icon {
+            color: var(--gold-500);
+        }
+        .print-option-title {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: var(--gray-800);
+            margin-bottom: 8px;
+        }
+        .print-option-desc {
+            font-size: 0.88em;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+        .print-month-selector {
+            margin-bottom: 24px;
+        }
+        .print-month-selector label {
+            display: block;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 10px;
+        }
+        .print-month-selector select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.95em;
+            transition: all 0.15s;
+        }
+        .print-month-selector select:focus {
+            outline: none;
+            border-color: var(--gold-500);
+            box-shadow: 0 0 0 3px rgba(184,134,11,0.1);
+        }
+
+        /* Onboarding/Tutorial Modal */
+        .onboarding-step {
+            margin-bottom: 28px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid var(--border);
+        }
+        .onboarding-step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .onboarding-step-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+        .onboarding-step-icon {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            background: linear-gradient(145deg, var(--gold-500), var(--gold-400));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .onboarding-step-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+        .onboarding-step-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        [data-theme="dark"] .onboarding-step-title {
+            color: #ffffff;
+        }
+        .onboarding-step-description {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+        [data-theme="dark"] .onboarding-step-description {
+            color: #e2e8f0;
+        }
+        .onboarding-tip {
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--gold-500);
+            border-radius: 6px;
+            font-size: 0.88em;
+            color: var(--text-primary);
+        }
+        [data-theme="dark"] .onboarding-tip {
+            color: #f1f5f9;
+        }
+        .onboarding-tip strong {
+            color: var(--gold-500);
+            font-weight: 600;
+        }
+        .onboarding-feedback {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            border: none;
+        }
+        [data-theme="dark"] .onboarding-feedback {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-inner { padding: 24px 20px; flex-direction: column; gap: 16px; }
+            .header-text h1 { font-size: 1.5em; text-align: center; }
+            .header-actions { margin-left: 0; }
+            .main-wrapper { padding: 20px 16px 40px; }
+            .cal-grid { grid-template-columns: repeat(3, 1fr); }
+            .form-row { grid-template-columns: 1fr; }
+            .modal { width: 95%; }
+            .color-preset-grid { grid-template-columns: repeat(3, 1fr); }
+            .controls-bar { flex-direction: column; align-items: stretch; }
+            .controls-left, .controls-right { width: 100%; justify-content: center; }
+            .month-selector { justify-content: center; }
+            .welcome-radio-group { flex-direction: column; }
+            .print-options { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Welcome Modal -->
+<div class="welcome-overlay" id="welcomeOverlay">
+    <div class="welcome-card">
+        <div class="welcome-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+        </div>
+        <h2>¡Bienvenido/a!</h2>
+        <p>Ingresá tu nombre para personalizar tu calendario</p>
+        <input type="text" id="userName" class="welcome-input" placeholder="Tu nombre..." maxlength="30">
+        
+        <div class="welcome-options">
+            <label class="welcome-options-label">¿Cómo querés ver tu semana?</label>
+            <div class="welcome-radio-group">
+                <div class="welcome-radio-option">
+                    <input type="radio" id="weekDaysOnly" name="weekType" value="workdays" checked>
+                    <label for="weekDaysOnly" class="welcome-radio-label">
+                        <svg class="welcome-radio-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <span class="welcome-radio-title">Lunes a Viernes</span>
+                        <span class="welcome-radio-desc">Solo días laborables</span>
+                    </label>
+                </div>
+                <div class="welcome-radio-option">
+                    <input type="radio" id="fullWeek" name="weekType" value="fullweek">
+                    <label for="fullWeek" class="welcome-radio-label">
+                        <svg class="welcome-radio-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <span class="welcome-radio-title">Semana Completa</span>
+                        <span class="welcome-radio-desc">Incluye sábados y domingos</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <button class="welcome-btn" onclick="saveUserName()">Comenzar</button>
+    </div>
+</div>
+
+<!-- Header -->
+<header>
+    <div class="header-inner">
+        <div class="header-emblem">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+        </div>
+        <div class="header-text">
+            <h1 id="headerTitle">Manos a la obra</h1>
+            <div class="subtitle">Tu calendario personal 2026</div>
+            <div class="header-credit">desarrollado por @darionavarro_ok</div>
+        </div>
+        <div class="header-actions">
+            <button class="btn-header" id="themeToggle" onclick="toggleTheme()" title="Cambiar tema">
+                <svg id="themeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+                <span class="btn-header-label" id="themeLabel">Oscuro</span>
+            </button>
+            <button class="btn-header" onclick="openOnboarding()" title="Ayuda">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="btn-header-label">Ayuda</span>
+            </button>
+            <button class="btn-header" onclick="exportJSON()" title="Exportar">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                <span class="btn-header-label">Exportar</span>
+            </button>
+            <button class="btn-header" onclick="document.getElementById('importInput').click()" title="Importar">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L9 8m4-4v12"></path>
+                </svg>
+                <span class="btn-header-label">Importar</span>
+            </button>
+            <input type="file" id="importInput" accept=".json" style="display: none;" onchange="importJSON(event)">
+            <button class="btn-header" onclick="openPrintModal()" title="Imprimir">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                </svg>
+                <span class="btn-header-label">Imprimir</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Main -->
+<div class="main-wrapper">
+    <div class="controls-bar">
+        <div class="controls-left">
+            <button class="filter-btn active" onclick="setFilter('all')">Todas</button>
+            <button class="filter-btn" onclick="setFilter('pending')">Pendientes</button>
+            <button class="filter-btn" onclick="setFilter('completed')">Completadas</button>
+        </div>
+        <div class="controls-right">
+            <div class="month-selector">
+                <span class="month-selector-label">Ir a:</span>
+                <select id="monthSelector" onchange="jumpToMonth()">
+                    <option value="all">Todos los meses</option>
+                    <option value="0">Enero</option>
+                    <option value="1">Febrero</option>
+                    <option value="2">Marzo</option>
+                    <option value="3">Abril</option>
+                    <option value="4">Mayo</option>
+                    <option value="5">Junio</option>
+                    <option value="6">Julio</option>
+                    <option value="7">Agosto</option>
+                    <option value="8">Septiembre</option>
+                    <option value="9">Octubre</option>
+                    <option value="10">Noviembre</option>
+                    <option value="11">Diciembre</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div id="calendarContainer"></div>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-overlay" id="addModal">
+    <div class="modal modal-wide">
+        <div class="modal-header">
+            <h2 id="modalTitle">Nueva Tarea</h2>
+            <button class="modal-close" onclick="closeAddModal()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="taskDate">
+            
+            <div class="form-group">
+                <label class="form-label">Título</label>
+                <input type="text" id="taskTitle" class="form-input" placeholder="¿Qué tenés que hacer?">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Color</label>
+                <div class="color-picker-wrapper">
+                    <div class="color-preview" id="colorPreview" onclick="document.getElementById('colorInput').click()"></div>
+                    <input type="color" id="colorInput" class="color-input-native" value="#10b981">
+                    <div class="color-preview-demo" id="colorPreviewDemo">
+                        <svg style="width: 12px; height: 12px; display: inline-block; margin-right: 6px;" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span>Vista previa</span>
+                    </div>
+                </div>
+                <div class="color-preset-grid" id="colorPresets"></div>
+            </div>
+
+            <div class="form-row-with-button">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Hora (opcional)</label>
+                    <input type="time" id="taskTime" class="form-input">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" style="opacity: 0; pointer-events: none;">.</label>
+                    <button class="btn btn-primary btn-save-task" onclick="saveTask()">
+                        <svg style="width: 18px; height: 18px; margin-right: 6px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Guardar
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Notas (opcional)</label>
+                <textarea id="taskNotes" class="form-textarea" placeholder="Agregá detalles..." rows="2"></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="checkbox-label" style="color: var(--cat-feriado); font-weight: 600;">
+                    <input type="checkbox" id="taskIsHoliday">
+                    🚫 Marcar este día como inhábil / feriado
+                </label>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeAddModal()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h2>Detalle</h2>
+            <button class="modal-close" onclick="closeDetailModal()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="detail-header">
+                <div class="detail-color-badge" id="detailColor"></div>
+                <div class="detail-title" id="detailTitle"></div>
+            </div>
+            <div class="detail-meta" id="detailMeta"></div>
+            <div class="detail-notes" id="detailNotes" style="display: none;"></div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-danger" onclick="deleteTask()">Eliminar</button>
+            <button class="btn btn-secondary" onclick="editTask()">Editar</button>
+            <button class="btn btn-primary" onclick="toggleTaskStatus()">
+                <span id="toggleStatusText">Marcar completada</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Task Picker Modal -->
+<div class="modal-overlay" id="taskPickerModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h2>Seleccioná una tarea</h2>
+            <button class="modal-close" onclick="closeTaskPicker()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="task-picker-list" id="taskPickerList"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Print Modal -->
+<div class="modal-overlay" id="printModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h2>Imprimir</h2>
+            <button class="modal-close" onclick="closePrintModal()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="print-options">
+                <div class="print-option-card" id="printCalendar" onclick="selectPrintOption('calendar')">
+                    <svg class="print-option-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    <div class="print-option-title">Calendario Visual</div>
+                    <div class="print-option-desc">Calendario mensual completo con todas las tareas</div>
+                </div>
+                <div class="print-option-card selected" id="printList" onclick="selectPrintOption('list')">
+                    <svg class="print-option-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                    </svg>
+                    <div class="print-option-title">Listado de Pendientes</div>
+                    <div class="print-option-desc">Lista de tareas pendientes organizadas por fecha</div>
+                </div>
+            </div>
+            
+            <div class="print-month-selector" id="printMonthSelector">
+                <label>Seleccionar mes</label>
+                <select id="printMonthSelect">
+                    <option value="all">Todos los meses</option>
+                    <option value="0">Enero</option>
+                    <option value="1">Febrero</option>
+                    <option value="2">Marzo</option>
+                    <option value="3">Abril</option>
+                    <option value="4">Mayo</option>
+                    <option value="5">Junio</option>
+                    <option value="6">Julio</option>
+                    <option value="7">Agosto</option>
+                    <option value="8">Septiembre</option>
+                    <option value="9">Octubre</option>
+                    <option value="10">Noviembre</option>
+                    <option value="11">Diciembre</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closePrintModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="generateSelectedPDF()">Generar PDF</button>
+        </div>
+    </div>
+</div>
+
+<!-- Onboarding/Tutorial Modal -->
+<div class="modal-overlay" id="onboardingModal">
+    <div class="modal" style="max-width: 680px;">
+        <div class="modal-header">
+            <h2>📚 Guía de uso</h2>
+            <button class="modal-close" onclick="closeOnboarding()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            
+            <div class="onboarding-step">
+                <div class="onboarding-step-header">
+                    <div class="onboarding-step-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="onboarding-step-title">Agregar tareas</div>
+                    </div>
+                </div>
+                <div class="onboarding-step-description">
+                    Hacé clic en el <strong>botón "+"</strong> que aparece al pasar el mouse sobre cualquier día del calendario. Podés elegir un título, fecha, hora, color personalizado y agregar notas.
+                </div>
+                <div class="onboarding-tip">
+                    <strong>💡 Consejo:</strong> Usá los 6 colores preseleccionados para categorizar tus tareas visualmente (rojo para urgente, verde para trabajo, azul para personal, etc.)
+                </div>
+            </div>
+
+            <div class="onboarding-step">
+                <div class="onboarding-step-header">
+                    <div class="onboarding-step-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="onboarding-step-title">Navegación rápida por meses</div>
+                    </div>
+                </div>
+                <div class="onboarding-step-description">
+                    Usá el selector <strong>"Ir a:"</strong> en la barra superior para saltar instantáneamente a cualquier mes. El calendario siempre abre en el mes actual según tu navegador.
+                </div>
+                <div class="onboarding-tip">
+                    <strong>💡 Consejo:</strong> Al guardar una tarea en un mes futuro, el calendario te lleva automáticamente a ese mes para que veas tu nueva actividad.
+                </div>
+            </div>
+
+            <div class="onboarding-step">
+                <div class="onboarding-step-header">
+                    <div class="onboarding-step-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="onboarding-step-title">Días inhábiles/feriados</div>
+                    </div>
+                </div>
+                <div class="onboarding-step-description">
+                    Al crear una tarea, podés marcar el checkbox <strong>"🚫 Marcar como inhábil/feriado"</strong>. Los días marcados así tendrán fondo gris y un badge rojo en el número. Los feriados nacionales argentinos ya están cargados automáticamente.
+                </div>
+            </div>
+
+            <div class="onboarding-step">
+                <div class="onboarding-step-header">
+                    <div class="onboarding-step-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="onboarding-step-title">Modo oscuro/claro</div>
+                    </div>
+                </div>
+                <div class="onboarding-step-description">
+                    Cambiá entre modo claro y oscuro usando el botón en el header. El tema se guarda automáticamente y se mantiene entre sesiones. En modo oscuro, las tareas tienen texto blanco con bordes superior e inferior de color para identificar la categoría.
+                </div>
+            </div>
+
+            <div class="onboarding-step">
+                <div class="onboarding-step-header">
+                    <div class="onboarding-step-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="onboarding-step-title">Imprimir y exportar</div>
+                    </div>
+                </div>
+                <div class="onboarding-step-description">
+                    El botón <strong>"Imprimir"</strong> te permite generar PDFs de dos formas: calendario visual mensual (tipo grilla) o listado de pendientes. Podés filtrar por mes específico o exportar todo el año. También podés hacer backup de tus datos con Exportar/Importar.
+                </div>
+            </div>
+
+            <div class="onboarding-step">
+                <div class="onboarding-step-header">
+                    <div class="onboarding-step-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="onboarding-step-title">Exportar e Importar datos</div>
+                    </div>
+                </div>
+                <div class="onboarding-step-description">
+                    Tu calendario se guarda automáticamente en el navegador, pero si limpiás el caché o usás otro dispositivo, podés perder los datos. Los botones <strong>Exportar</strong> e <strong>Importar</strong> te permiten hacer una copia de seguridad de todas tus tareas.
+                    <br><br>
+                    • <strong>Exportar:</strong> Descarga un archivo <code>.json</code> con todas tus tareas. Guardalo en tu carpeta de documentos o en la nube.
+                    <br>
+                    • <strong>Importar:</strong> Carga un archivo <code>.json</code> exportado previamente para restaurar todas tus tareas en cualquier dispositivo o navegador.
+                </div>
+                <div class="onboarding-tip">
+                    <strong>💡 Consejo:</strong> Exportá tu calendario una vez por semana para no perder nada. Si usás el calendario en el trabajo y en casa, exportá en un dispositivo e importá en el otro para tener todo sincronizado.
+                </div>
+            </div>
+
+            <div class="onboarding-step">
+                <div class="onboarding-step-header">
+                    <div class="onboarding-step-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="onboarding-step-title">Vista de semana</div>
+                    </div>
+                </div>
+                <div class="onboarding-step-description">
+                    En la configuración inicial podés elegir entre ver solo días laborables (Lunes a Viernes) o la semana completa con sábados y domingos. Esta preferencia se mantiene en toda la app, en la vista del calendario y también en los PDFs que generás, para que todo sea consistente con tu forma de trabajar.
+                </div>
+            </div>
+
+            <div class="onboarding-step onboarding-feedback">
+                <div class="onboarding-step-header">
+                    <div class="onboarding-step-icon" style="background: linear-gradient(145deg, #ec4899, #8b5cf6);">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="onboarding-step-title">Feedback</div>
+                    </div>
+                </div>
+                <div class="onboarding-step-description">
+                    Esta app es gratuita y busca ser útil para todos. Si querés enviar comentarios para sugerir mejoras, indicar errores o para destacar alguna de sus funciones, ¡escribinos!
+                </div>
+                <div class="onboarding-tip" style="margin-top: 16px; display: flex; align-items: center; gap: 14px; background: linear-gradient(135deg, rgba(236,72,153,0.08), rgba(139,92,246,0.08)); border-left-color: #ec4899;">
+                    <svg style="width: 32px; height: 32px; flex-shrink: 0; color: #ec4899;" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    <span>Mandá un mensaje directo a <strong style="color: #ec4899;">@darionavarro_ok</strong> en Instagram</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-primary" onclick="closeOnboarding()">¡Entendido!</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ═══════════ STATE & DATA ═══════════
+let tasks = [];
+let currentTaskId = null;
+let currentFilter = 'all';
+let currentYear = 2026;
+let userName = '';
+let weekType = 'workdays'; // 'workdays' o 'fullweek'
+let selectedMonth = null; // null = todos los meses, 0-11 = mes específico
+let printType = 'list'; // 'calendar' o 'list'
+let currentTheme = 'light'; // 'light' o 'dark'
+
+const COLOR_PRESETS = [
+    '#dc2626', // Rojo
+    '#f59e0b', // Naranja/Amarillo
+    '#10b981', // Verde
+    '#3b82f6', // Azul
+    '#8b5cf6', // Morado
+    '#ec4899'  // Rosa
+];
+
+const MONTH_NAMES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const DAY_NAMES_WORKDAYS = ['LUN','MAR','MIÉ','JUE','VIE'];
+const DAY_NAMES_FULL = ['LUN','MAR','MIÉ','JUE','VIE','SÁB','DOM'];
+
+// Feriados Nacionales Argentina 2026
+const HOLIDAYS = {
+    '2026-01-01': 'Año Nuevo',
+    '2026-02-16': 'Carnaval',
+    '2026-02-17': 'Carnaval',
+    '2026-03-24': 'Día de la Memoria por la Verdad y la Justicia',
+    '2026-04-02': 'Día del Veterano y de los Caídos en Malvinas',
+    '2026-04-03': 'Viernes Santo',
+    '2026-05-01': 'Día del Trabajador',
+    '2026-05-25': 'Día de la Revolución de Mayo',
+    '2026-06-15': 'Paso a la Inmortalidad del Gral. Güemes',
+    '2026-06-20': 'Paso a la Inmortalidad del Gral. Belgrano',
+    '2026-07-09': 'Día de la Independencia',
+    '2026-08-17': 'Paso a la Inmortalidad del Gral. San Martín',
+    '2026-10-12': 'Día del Respeto a la Diversidad Cultural',
+    '2026-11-23': 'Día de la Soberanía Nacional',
+    '2026-12-08': 'Inmaculada Concepción de María',
+    '2026-12-25': 'Navidad'
+};
+
+// ═══════════ THEME MANAGEMENT ═══════════
+function loadTheme() {
+    const savedTheme = localStorage.getItem('miCalendario_theme') || 'light';
+    currentTheme = savedTheme;
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeButton();
+}
+
+function toggleTheme() {
+    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    localStorage.setItem('miCalendario_theme', currentTheme);
+    updateThemeButton();
+}
+
+function updateThemeButton() {
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    
+    if (currentTheme === 'dark') {
+        // Mostrar icono de sol (cambiar a claro)
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+        label.textContent = 'Claro';
+    } else {
+        // Mostrar icono de luna (cambiar a oscuro)
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+        label.textContent = 'Oscuro';
+    }
+}
+
+// ═══════════ INIT ═══════════
+function init() {
+    loadTheme();
+    loadUserName();
+    loadTasks();
+    renderColorPresets();
+    renderCalendar();
+    setupColorPicker();
+    setCurrentMonth();
+}
+
+function setCurrentMonth() {
+    const now = new Date();
+    const currentMonthNow = now.getMonth(); // 0-11
+    const currentYearNow = now.getFullYear();
+    
+    // Siempre mostrar el mes actual del sistema, independientemente del año del calendario
+    selectedMonth = currentMonthNow;
+    document.getElementById('monthSelector').value = currentMonthNow.toString();
+    
+    // Aplicar la visualización del mes actual
+    const allMonths = document.querySelectorAll('.month-block');
+    allMonths.forEach((block, index) => {
+        if (index === selectedMonth) {
+            block.classList.remove('hidden');
+            block.classList.add('fade-in');
+            block.style.animation = 'fadeInMonth 0.5s ease-in-out both';
+        } else {
+            block.classList.add('hidden');
+        }
+    });
+}
+
+function loadUserName() {
+    const stored = localStorage.getItem('miCalendario_userName');
+    const storedWeekType = localStorage.getItem('miCalendario_weekType');
+    
+    if (stored) {
+        userName = stored;
+        weekType = storedWeekType || 'workdays';
+        updateHeaderName();
+        document.getElementById('welcomeOverlay').classList.add('hidden');
+    } else {
+        document.getElementById('userName').focus();
+    }
+}
+
+function saveUserName() {
+    const input = document.getElementById('userName').value.trim();
+    if (!input) {
+        alert('Por favor ingresá tu nombre');
+        return;
+    }
+    
+    const selectedWeekType = document.querySelector('input[name="weekType"]:checked').value;
+    
+    userName = input;
+    weekType = selectedWeekType;
+    
+    localStorage.setItem('miCalendario_userName', userName);
+    localStorage.setItem('miCalendario_weekType', weekType);
+    
+    updateHeaderName();
+    document.getElementById('welcomeOverlay').classList.add('hidden');
+    
+    // Re-renderizar el calendario con la nueva configuración
+    renderCalendar();
+}
+
+function updateHeaderName() {
+    document.getElementById('headerTitle').textContent = `Manos a la obra, ${userName}`;
+}
+
+function loadTasks() {
+    const stored = localStorage.getItem('miCalendario_tasks');
+    tasks = stored ? JSON.parse(stored) : [];
+}
+
+function saveTasks() {
+    localStorage.setItem('miCalendario_tasks', JSON.stringify(tasks));
+}
+
+function setupColorPicker() {
+    const colorInput = document.getElementById('colorInput');
+    const colorPreview = document.getElementById('colorPreview');
+    
+    colorInput.addEventListener('input', (e) => {
+        colorPreview.style.background = e.target.value;
+        updateColorPreview(e.target.value);
+        updatePresetSelection(e.target.value);
+    });
+    
+    colorPreview.style.background = colorInput.value;
+    updateColorPreview(colorInput.value);
+}
+
+function renderColorPresets() {
+    const container = document.getElementById('colorPresets');
+    container.innerHTML = COLOR_PRESETS.map(color => 
+        `<div class="color-preset" style="color: ${color}; border-left-color: ${color}" onclick="selectPresetColor('${color}')"></div>`
+    ).join('');
+}
+
+function selectPresetColor(color) {
+    document.getElementById('colorInput').value = color;
+    document.getElementById('colorPreview').style.background = color;
+    updateColorPreview(color);
+    updatePresetSelection(color);
+}
+
+function updatePresetSelection(selectedColor) {
+    document.querySelectorAll('.color-preset').forEach(preset => {
+        preset.classList.remove('selected');
+        // Comparar el color del borde izquierdo
+        const presetColor = preset.style.borderLeftColor;
+        if (rgbToHex(presetColor) === selectedColor.toLowerCase() || presetColor === selectedColor) {
+            preset.classList.add('selected');
+        }
+    });
+}
+
+function updateColorPreview(color) {
+    const preview = document.getElementById('colorPreviewDemo');
+    if (preview) {
+        preview.style.borderLeftColor = color;
+        preview.style.background = color + '15'; // 15 = ~8% opacity
+        preview.style.color = color;
+    }
+}
+
+function rgbToHex(rgb) {
+    if (rgb.startsWith('#')) return rgb.toLowerCase();
+    const values = rgb.match(/\d+/g);
+    if (!values) return rgb;
+    return '#' + values.map(x => {
+        const hex = parseInt(x).toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+    }).join('');
+}
+
+// ═══════════ CALENDAR RENDERING ═══════════
+function renderCalendar() {
+    const container = document.getElementById('calendarContainer');
+    container.innerHTML = '';
+    
+    const dayNames = weekType === 'fullweek' ? DAY_NAMES_FULL : DAY_NAMES_WORKDAYS;
+    const gridColumns = weekType === 'fullweek' ? 7 : 5;
+
+    for (let month = 0; month < 12; month++) {
+        const monthBlock = document.createElement('div');
+        monthBlock.className = 'month-block';
+        monthBlock.setAttribute('data-month', month);
+        monthBlock.id = `month-${month}`;
+        
+        const titleBar = document.createElement('div');
+        titleBar.className = 'month-title-bar';
+        titleBar.textContent = MONTH_NAMES[month];
+        monthBlock.appendChild(titleBar);
+
+        const grid = document.createElement('div');
+        grid.className = 'cal-grid';
+        grid.style.gridTemplateColumns = `repeat(${gridColumns}, 1fr)`;
+
+        // Headers
+        dayNames.forEach(day => {
+            const header = document.createElement('div');
+            header.className = 'cal-header';
+            header.textContent = day;
+            grid.appendChild(header);
+        });
+
+        // Days
+        const firstDay = new Date(currentYear, month, 1).getDay();
+        const daysInMonth = new Date(currentYear, month + 1, 0).getDate();
+        
+        let startOffset;
+        if (weekType === 'fullweek') {
+            // Semana completa: Lun=1, Mar=2, Mié=3, Jue=4, Vie=5, Sáb=6, Dom=0
+            // Si es domingo (0), va en la posición 6 (última columna)
+            startOffset = firstDay === 0 ? 6 : firstDay - 1;
+        } else {
+            // Solo días laborables: Lun=0, Mar=1, Mié=2, Jue=3, Vie=4
+            // getDay(): Dom=0, Lun=1, Mar=2, Mié=3, Jue=4, Vie=5, Sáb=6
+            if (firstDay === 0 || firstDay === 6) {
+                // Si empieza en fin de semana, esperar al lunes (offset 0)
+                startOffset = 0;
+            } else {
+                // Lunes=1 -> offset 0, Martes=2 -> offset 1, etc.
+                startOffset = firstDay - 1;
+            }
+        }
+
+        // Empty cells
+        for (let i = 0; i < startOffset; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.className = 'cal-day empty';
+            grid.appendChild(emptyCell);
+        }
+
+        // Day cells
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateObj = new Date(currentYear, month, day);
+            const dayOfWeek = dateObj.getDay();
+            
+            // Si es modo workdays, saltear sábados (6) y domingos (0)
+            if (weekType === 'workdays' && (dayOfWeek === 0 || dayOfWeek === 6)) {
+                continue;
+            }
+            
+            const dateStr = `${currentYear}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const dayCell = createDayCell(day, dateStr);
+            grid.appendChild(dayCell);
+        }
+
+        monthBlock.appendChild(grid);
+        container.appendChild(monthBlock);
+    }
+}
+
+function jumpToMonth() {
+    const selectorValue = document.getElementById('monthSelector').value;
+    
+    if (selectorValue === 'all') {
+        // Mostrar todos los meses
+        selectedMonth = null;
+        const allMonths = document.querySelectorAll('.month-block');
+        
+        allMonths.forEach((block, index) => {
+            block.classList.remove('hidden');
+            block.classList.add('fade-in');
+            block.style.animation = `fadeInMonth 0.4s ease-in-out ${index * 0.05}s both`;
+        });
+        
+        // Scroll suave al inicio
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+        jumpToMonthByIndex(parseInt(selectorValue));
+    }
+}
+
+function jumpToMonthByIndex(monthIndex) {
+    selectedMonth = monthIndex;
+    document.getElementById('monthSelector').value = monthIndex.toString();
+    
+    const allMonths = document.querySelectorAll('.month-block');
+    
+    allMonths.forEach((block, index) => {
+        if (index === selectedMonth) {
+            block.classList.remove('hidden');
+            block.classList.add('fade-in');
+            block.style.animation = 'fadeInMonth 0.5s ease-in-out both';
+        } else {
+            block.classList.add('hidden');
+        }
+    });
+    
+    // Scroll al inicio para ver el mes seleccionado
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function createDayCell(day, dateStr) {
+    const cell = document.createElement('div');
+    cell.className = 'cal-day';
+    cell.setAttribute('data-date', dateStr);
+    cell.setAttribute('tabindex', '0');
+
+    const isNationalHoliday = HOLIDAYS[dateStr];
+    const userHolidays = tasks.filter(t => t.date === dateStr && t.isHoliday);
+    const dayTasks = tasks.filter(t => t.date === dateStr && !t.isHoliday);
+    const hasHoliday = isNationalHoliday || userHolidays.length > 0;
+    
+    // Marcar como día vacío si no tiene tareas del usuario (ni tareas ni feriados propios)
+    const hasUserContent = userHolidays.length > 0 || dayTasks.length > 0;
+    if (!hasUserContent) {
+        cell.classList.add('empty-day');
+    }
+    
+    if (hasHoliday) {
+        cell.classList.add('has-holiday');
+    }
+
+    const dayNum = document.createElement('div');
+    dayNum.className = 'day-num';
+    dayNum.textContent = day;
+    cell.appendChild(dayNum);
+
+    const addBtn = document.createElement('button');
+    addBtn.className = 'day-add-btn';
+    addBtn.textContent = '+';
+    addBtn.onclick = (e) => {
+        e.stopPropagation();
+        openAddModal(dateStr);
+    };
+    cell.appendChild(addBtn);
+
+    // Agregar click en el día completo para animar el botón +
+    cell.addEventListener('click', (e) => {
+        // Si el click fue en una tarea, no hacer nada
+        if (e.target.closest('.task-item')) return;
+        
+        // Animar el botón +
+        addBtn.classList.add('pulse-animation');
+        setTimeout(() => {
+            addBtn.classList.remove('pulse-animation');
+        }, 600);
+    });
+
+    const taskList = document.createElement('div');
+    taskList.className = 'task-list';
+
+    // Add national holiday
+    if (isNationalHoliday) {
+        const holidayItem = document.createElement('div');
+        holidayItem.className = 'task-item';
+        holidayItem.style.borderLeftColor = 'var(--cat-feriado)';
+        holidayItem.style.background = 'rgba(190, 18, 60, 0.1)';
+        holidayItem.style.color = 'var(--cat-feriado)';
+        holidayItem.innerHTML = `
+            <svg class="task-icon" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="task-text">${isNationalHoliday}</span>
+        `;
+        taskList.appendChild(holidayItem);
+    }
+
+    // Add user-created holidays
+    userHolidays.forEach(holiday => {
+        const holidayItem = document.createElement('div');
+        holidayItem.className = 'task-item';
+        holidayItem.style.borderLeftColor = 'var(--cat-feriado)';
+        holidayItem.style.background = 'rgba(190, 18, 60, 0.1)';
+        holidayItem.style.color = 'var(--cat-feriado)';
+        holidayItem.onclick = () => openDetail(holiday.id);
+        holidayItem.innerHTML = `
+            <svg class="task-icon" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="task-text">${holiday.title}</span>
+        `;
+        taskList.appendChild(holidayItem);
+    });
+
+    // Add regular tasks (dayTasks ya está definido arriba)
+    dayTasks.forEach(task => {
+        if (currentFilter === 'pending' && task.done) return;
+        if (currentFilter === 'completed' && !task.done) return;
+
+        const taskItem = document.createElement('div');
+        taskItem.className = 'task-item' + (task.done ? ' done' : '');
+        taskItem.style.borderLeftColor = task.color;
+        taskItem.style.background = task.color + '15';
+        taskItem.style.color = task.color;
+        taskItem.onclick = () => openDetail(task.id);
+
+        taskItem.innerHTML = `
+            <svg class="task-icon" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="task-text">${task.title}</span>
+            ${task.time ? `<span class="task-time">${task.time}</span>` : ''}
+        `;
+        taskItem.style.setProperty('border-top-color', task.color);
+        taskItem.style.setProperty('border-bottom-color', task.color);
+        taskList.appendChild(taskItem);
+    });
+
+    cell.appendChild(taskList);
+    return cell;
+}
+
+// ═══════════ MODALS ═══════════
+function openAddModal(dateStr) {
+    currentTaskId = null;
+    document.getElementById('modalTitle').textContent = 'Nueva Tarea';
+    document.getElementById('taskTitle').value = '';
+    document.getElementById('taskDate').value = dateStr;
+    document.getElementById('taskTime').value = '';
+    document.getElementById('taskNotes').value = '';
+    document.getElementById('taskIsHoliday').checked = false;
+    document.getElementById('colorInput').value = '#10b981';
+    document.getElementById('colorPreview').style.background = '#10b981';
+    updateColorPreview('#10b981');
+    updatePresetSelection('#10b981');
+    document.getElementById('addModal').classList.add('active');
+    
+    // Agregar listener de Enter
+    setTimeout(() => {
+        const modal = document.getElementById('addModal');
+        const handleEnter = (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                // Permitir Enter en textarea con Shift
+                if (e.target.tagName === 'TEXTAREA') return;
+                e.preventDefault();
+                saveTask();
+                modal.removeEventListener('keydown', handleEnter);
+            }
+        };
+        modal.addEventListener('keydown', handleEnter);
+        
+        document.getElementById('taskTitle').focus();
+    }, 100);
+}
+
+function closeAddModal() {
+    document.getElementById('addModal').classList.remove('active');
+}
+
+function saveTask() {
+    const title = document.getElementById('taskTitle').value.trim();
+    const date = document.getElementById('taskDate').value;
+    const time = document.getElementById('taskTime').value;
+    const notes = document.getElementById('taskNotes').value.trim();
+    const color = document.getElementById('colorInput').value;
+    const isHoliday = document.getElementById('taskIsHoliday').checked;
+
+    if (!title) {
+        alert('Por favor ingresá un título');
+        return;
+    }
+    if (!date) {
+        alert('Por favor seleccioná una fecha');
+        return;
+    }
+
+    if (currentTaskId) {
+        const task = tasks.find(t => t.id === currentTaskId);
+        task.title = title;
+        task.date = date;
+        task.time = time;
+        task.notes = notes;
+        task.color = color;
+        task.isHoliday = isHoliday;
+    } else {
+        const newTask = {
+            id: Date.now().toString(),
+            title,
+            date,
+            time,
+            notes,
+            color,
+            isHoliday: isHoliday || false,
+            done: false
+        };
+        tasks.push(newTask);
+    }
+
+    saveTasks();
+    renderCalendar();
+    closeAddModal();
+    
+    // Volver al mes donde se guardó la tarea
+    const taskMonth = parseInt(date.split('-')[1]) - 1; // 0-11
+    jumpToMonthByIndex(taskMonth);
+}
+
+function openDetail(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    currentTaskId = taskId;
+    
+    document.getElementById('detailColor').style.background = task.color;
+    document.getElementById('detailTitle').textContent = task.title;
+    
+    const meta = document.getElementById('detailMeta');
+    const dateParts = task.date.split('-');
+    const dateObj = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]));
+    const dateFormatted = `${dateObj.getDate()} de ${MONTH_NAMES[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+    
+    meta.innerHTML = `
+        <div class="detail-meta-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            <span>${dateFormatted}</span>
+        </div>
+        ${task.time ? `
+            <div class="detail-meta-item">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span>${task.time}</span>
+            </div>
+        ` : ''}
+        <div class="detail-meta-item">
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span>${task.done ? 'Completada' : 'Pendiente'}</span>
+        </div>
+    `;
+    
+    const notesEl = document.getElementById('detailNotes');
+    if (task.notes) {
+        notesEl.textContent = task.notes;
+        notesEl.style.display = 'block';
+    } else {
+        notesEl.style.display = 'none';
+    }
+    
+    document.getElementById('toggleStatusText').textContent = task.done ? 'Marcar pendiente' : 'Marcar completada';
+    document.getElementById('detailModal').classList.add('active');
+}
+
+function closeDetailModal() {
+    document.getElementById('detailModal').classList.remove('active');
+}
+
+function editTask() {
+    const task = tasks.find(t => t.id === currentTaskId);
+    if (!task) return;
+    
+    closeDetailModal();
+    
+    document.getElementById('modalTitle').textContent = 'Editar Tarea';
+    document.getElementById('taskTitle').value = task.title;
+    document.getElementById('taskDate').value = task.date;
+    document.getElementById('taskTime').value = task.time;
+    document.getElementById('taskNotes').value = task.notes;
+    document.getElementById('taskIsHoliday').checked = task.isHoliday || false;
+    document.getElementById('colorInput').value = task.color;
+    document.getElementById('colorPreview').style.background = task.color;
+    updateColorPreview(task.color);
+    updatePresetSelection(task.color);
+    document.getElementById('addModal').classList.add('active');
+}
+
+function deleteTask() {
+    if (!confirm('¿Eliminar esta tarea?')) return;
+    tasks = tasks.filter(t => t.id !== currentTaskId);
+    saveTasks();
+    renderCalendar();
+    closeDetailModal();
+}
+
+function toggleTaskStatus() {
+    const task = tasks.find(t => t.id === currentTaskId);
+    if (!task) return;
+    task.done = !task.done;
+    saveTasks();
+    renderCalendar();
+    closeDetailModal();
+}
+
+function openTaskPicker(dateStr, dayTasks) {
+    const list = document.getElementById('taskPickerList');
+    list.innerHTML = dayTasks.map(task => `
+        <div class="task-picker-item" onclick="openDetail('${task.id}'); closeTaskPicker();">
+            <div class="task-picker-color" style="background: ${task.color}"></div>
+            <div class="task-picker-content">
+                <div class="task-picker-title">${task.title}</div>
+                ${task.time ? `<div class="task-picker-time">${task.time}</div>` : ''}
+            </div>
+        </div>
+    `).join('');
+    document.getElementById('taskPickerModal').classList.add('active');
+}
+
+function closeTaskPicker() {
+    document.getElementById('taskPickerModal').classList.remove('active');
+}
+
+// ═══════════ PRINT MODAL ═══════════
+function openPrintModal() {
+    // Setear el mes actual en el selector si hay un mes seleccionado
+    if (selectedMonth !== null) {
+        document.getElementById('printMonthSelect').value = selectedMonth.toString();
+    } else {
+        document.getElementById('printMonthSelect').value = 'all';
+    }
+    
+    // Resetear selección a listado por defecto
+    printType = 'list';
+    selectPrintOption('list');
+    
+    document.getElementById('printModal').classList.add('active');
+}
+
+function closePrintModal() {
+    document.getElementById('printModal').classList.remove('active');
+}
+
+function selectPrintOption(type) {
+    printType = type;
+    document.getElementById('printCalendar').classList.remove('selected');
+    document.getElementById('printList').classList.remove('selected');
+    
+    if (type === 'calendar') {
+        document.getElementById('printCalendar').classList.add('selected');
+    } else {
+        document.getElementById('printList').classList.add('selected');
+    }
+}
+
+function generateSelectedPDF() {
+    const selectedPrintMonth = document.getElementById('printMonthSelect').value;
+    
+    if (printType === 'calendar') {
+        generateCalendarPDF(selectedPrintMonth);
+    } else {
+        generateListPDF(selectedPrintMonth);
+    }
+    
+    closePrintModal();
+}
+
+// ═══════════ ONBOARDING/TUTORIAL MODAL ═══════════
+function openOnboarding() {
+    document.getElementById('onboardingModal').classList.add('active');
+}
+
+function closeOnboarding() {
+    document.getElementById('onboardingModal').classList.remove('active');
+}
+
+// ═══════════ FILTERS ═══════════
+function setFilter(filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    renderCalendar();
+}
+
+// ═══════════ KEYBOARD NAVIGATION ═══════════
+document.addEventListener('keydown', (e) => {
+    const active = document.activeElement;
+    if (!active || !active.classList.contains('cal-day')) return;
+    
+    const columnsPerWeek = weekType === 'fullweek' ? 7 : 5;
+    
+    let target = null;
+    if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        target = active.nextElementSibling;
+    } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        target = active.previousElementSibling;
+    } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const siblings = Array.from(active.parentElement.children).filter(el => el.classList.contains('cal-day'));
+        const idx = siblings.indexOf(active);
+        target = siblings[idx + columnsPerWeek];
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const siblings = Array.from(active.parentElement.children).filter(el => el.classList.contains('cal-day'));
+        const idx = siblings.indexOf(active);
+        target = siblings[idx - columnsPerWeek];
+    } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const dateStr = active.getAttribute('data-date');
+        if (dateStr) openAddModal(dateStr);
+    } else if (e.key === '-') {
+        e.preventDefault();
+        const dateStr = active.getAttribute('data-date');
+        if (!dateStr) return;
+        const dayTasks = tasks.filter(t => t.date === dateStr);
+        if (dayTasks.length === 0) return;
+        if (dayTasks.length === 1) {
+            openDetail(dayTasks[0].id);
+        } else {
+            openTaskPicker(dateStr, dayTasks);
+        }
+    }
+    
+    if (target && target.getAttribute('data-date')) {
+        target.focus();
+        target.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+});
+
+// Init
+init();
+
+// ═══════════ BACKUP: EXPORT / IMPORT JSON ═══════════
+function exportJSON() {
+    const data = JSON.stringify(tasks, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const now = new Date();
+    const stamp = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+    a.download = `backup_mi_calendario_${stamp}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function importJSON(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    // Confirmación antes de importar
+    const taskCount = tasks.length;
+    let confirmMsg = '¿Estás seguro de que querés importar este archivo?';
+    if (taskCount > 0) {
+        confirmMsg = `Tenés ${taskCount} tarea${taskCount === 1 ? '' : 's'} actualmente. Al importar, se reemplazarán por las del archivo.\n\n¿Querés continuar?`;
+    }
+    
+    if (!confirm(confirmMsg)) {
+        event.target.value = '';
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const imported = JSON.parse(e.target.result);
+            if (!Array.isArray(imported)) throw new Error('Formato inválido');
+            tasks = imported;
+            saveTasks();
+            renderCalendar();
+            alert(`✓ Se importaron ${imported.length} tarea${imported.length === 1 ? '' : 's'} correctamente.`);
+        } catch (err) {
+            alert('Error al cargar el archivo. Verificá que sea un JSON válido.');
+        }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+// ═══════════ PDF GENERATION - LISTADO DE PENDIENTES ═══════════
+function generateListPDF(monthFilter) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'mm', 'a4');
+    const pageW = 210;
+    const marginL = 18;
+    const marginR = 18;
+    const contentW = pageW - marginL - marginR;
+    let y = 0;
+
+    // Filtrar tareas pendientes
+    let pending = tasks.filter(t => !t.done);
+    
+    // Aplicar filtro de mes si corresponde
+    if (monthFilter !== 'all') {
+        const monthNum = parseInt(monthFilter);
+        pending = pending.filter(t => {
+            const parts = t.date.split('-');
+            return parseInt(parts[1]) - 1 === monthNum;
+        });
+    }
+    
+    pending.sort((a, b) => a.date.localeCompare(b.date));
+
+    if (pending.length === 0) {
+        alert('No hay tareas pendientes para exportar.');
+        return;
+    }
+
+    const MONTH_NAMES_PDF = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const DAY_NAMES_PDF = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+
+    function drawHeader() {
+        doc.setDrawColor(0);
+        doc.setLineWidth(0.6);
+        doc.line(marginL, 14, pageW - marginR, 14);
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(13);
+        doc.setTextColor(0);
+        doc.text(`MI CALENDARIO - ${userName.toUpperCase()}`, marginL, 11);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(80);
+        const subtitle = monthFilter === 'all' 
+            ? 'Tareas Pendientes 2026' 
+            : `Tareas Pendientes - ${MONTH_NAMES_PDF[parseInt(monthFilter)]} 2026`;
+        doc.text(subtitle, marginL, 19);
+
+        const now = new Date();
+        const dateStr = `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+        doc.setFontSize(7.5);
+        doc.setTextColor(130);
+        doc.text(dateStr, pageW - marginR, 19, { align: 'right' });
+
+        return 27;
+    }
+
+    y = drawHeader();
+
+    const byMonth = {};
+    pending.forEach(t => {
+        const parts = t.date.split('-');
+        const monthKey = parts[1];
+        if (!byMonth[monthKey]) byMonth[monthKey] = [];
+        byMonth[monthKey].push(t);
+    });
+
+    const cbSize = 3.5;
+
+    Object.keys(byMonth).sort().forEach(monthKey => {
+        const monthIdx = parseInt(monthKey) - 1;
+        const monthTasks = byMonth[monthKey];
+
+        if (y > 268) {
+            doc.addPage();
+            y = drawHeader();
+        }
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(0);
+        doc.text(MONTH_NAMES_PDF[monthIdx].toUpperCase(), marginL, y + 4);
+        doc.setDrawColor(0);
+        doc.setLineWidth(0.3);
+        doc.line(marginL, y + 5.5, pageW - marginR, y + 5.5);
+        y += 11;
+
+        monthTasks.forEach(t => {
+            if (y > 278) {
+                doc.addPage();
+                y = drawHeader();
+            }
+
+            const parts = t.date.split('-');
+            const dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+            const dayName = DAY_NAMES_PDF[dateObj.getDay()];
+            const dateFormatted = `${dayName} ${String(parseInt(parts[2])).padStart(2,' ')}/${parts[1]}`;
+
+            doc.setDrawColor(100);
+            doc.setLineWidth(0.25);
+            doc.rect(marginL, y - 2.8, cbSize, cbSize);
+
+            const dateX = marginL + cbSize + 3;
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(7.5);
+            doc.setTextColor(90);
+            doc.text(dateFormatted, dateX, y + 0.2);
+
+            const titleX = dateX + 28;
+            const titleMaxW = pageW - marginR - titleX - (t.time ? 15 : 0);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.setTextColor(20);
+            if (titleMaxW > 10) {
+                doc.text(t.title, titleX, y + 0.2, { maxWidth: titleMaxW });
+            }
+
+            if (t.time) {
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(7.5);
+                doc.setTextColor(100);
+                doc.text(t.time, pageW - marginR, y + 0.2, { align: 'right' });
+            }
+
+            y += 6;
+
+            if (t.notes) {
+                doc.setFont('helvetica', 'italic');
+                doc.setFontSize(7);
+                doc.setTextColor(120);
+                const noteLines = doc.splitTextToSize(t.notes, contentW - cbSize - 6);
+                doc.text(noteLines, marginL + cbSize + 3, y - 1);
+                y += noteLines.length * 3;
+            }
+
+            doc.setDrawColor(200);
+            doc.setLineWidth(0.1);
+            doc.setLineDashPattern([1, 1], 0);
+            doc.line(marginL + cbSize + 3, y - 1.5, pageW - marginR, y - 1.5);
+            doc.setLineDashPattern([], 0);
+
+            y += 2.5;
+        });
+
+        y += 3;
+    });
+
+    const totalPages = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        doc.setTextColor(160);
+        doc.text(`${i} / ${totalPages}`, pageW / 2, 290, { align: 'center' });
+    }
+
+    const filename = monthFilter === 'all'
+        ? `pendientes_${userName.toLowerCase().replace(/\s+/g, '_')}_2026.pdf`
+        : `pendientes_${MONTH_NAMES_PDF[parseInt(monthFilter)].toLowerCase()}_${userName.toLowerCase().replace(/\s+/g, '_')}_2026.pdf`;
+    
+    doc.save(filename);
+}
+
+// ═══════════ PDF GENERATION - CALENDARIO VISUAL ═══════════
+function generateCalendarPDF(monthFilter) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('l', 'mm', 'a4'); // Landscape para calendario
+    const pageW = 297;
+    const pageH = 210;
+    const marginL = 15;
+    const marginR = 15;
+    const marginT = 20;
+    const marginB = 15;
+    
+    const MONTH_NAMES_PDF = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const DAY_NAMES_SHORT = weekType === 'fullweek' 
+        ? ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom']
+        : ['Lun','Mar','Mié','Jue','Vie'];
+    
+    const monthsToGenerate = monthFilter === 'all' 
+        ? [0,1,2,3,4,5,6,7,8,9,10,11] 
+        : [parseInt(monthFilter)];
+    
+    monthsToGenerate.forEach((monthIdx, pageNum) => {
+        if (pageNum > 0) doc.addPage();
+        
+        // Header
+        doc.setDrawColor(15, 26, 46);
+        doc.setLineWidth(0.8);
+        doc.line(marginL, marginT - 5, pageW - marginR, marginT - 5);
+        
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(18);
+        doc.setTextColor(15, 26, 46);
+        doc.text(MONTH_NAMES_PDF[monthIdx].toUpperCase() + ' 2026', pageW / 2, marginT - 10, { align: 'center' });
+        
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(108, 117, 125);
+        doc.text(`${userName}`, marginL, marginT - 10);
+        
+        const now = new Date();
+        const dateStr = `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+        doc.text(dateStr, pageW - marginR, marginT - 10, { align: 'right' });
+        
+        // Calendar grid
+        const gridWidth = pageW - marginL - marginR;
+        const gridHeight = pageH - marginT - marginB;
+        const cols = weekType === 'fullweek' ? 7 : 5;
+        const rows = 6; // Máximo de semanas en un mes
+        const cellW = gridWidth / cols;
+        const cellH = gridHeight / rows;
+        
+        // Day headers
+        doc.setFillColor(241, 243, 245);
+        doc.rect(marginL, marginT, gridWidth, cellH * 0.4, 'F');
+        
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.setTextColor(73, 80, 87);
+        
+        DAY_NAMES_SHORT.forEach((day, i) => {
+            const x = marginL + (i * cellW) + (cellW / 2);
+            doc.text(day, x, marginT + (cellH * 0.25), { align: 'center' });
+        });
+        
+        // Get month data
+        const firstDay = new Date(currentYear, monthIdx, 1).getDay();
+        const daysInMonth = new Date(currentYear, monthIdx + 1, 0).getDate();
+        
+        let startOffset;
+        if (weekType === 'fullweek') {
+            startOffset = firstDay === 0 ? 6 : firstDay - 1;
+        } else {
+            startOffset = firstDay === 0 ? 4 : firstDay - 1;
+        }
+        
+        // Draw cells
+        let currentRow = 0;
+        let currentCol = startOffset;
+        
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateObj = new Date(currentYear, monthIdx, day);
+            const dayOfWeek = dateObj.getDay();
+            
+            // Skip weekends in workdays mode
+            if (weekType === 'workdays' && (dayOfWeek === 0 || dayOfWeek === 6)) {
+                continue;
+            }
+            
+            const dateStr = `${currentYear}-${String(monthIdx + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const cellX = marginL + (currentCol * cellW);
+            const cellY = marginT + (cellH * 0.4) + (currentRow * cellH);
+            
+            // Check if holiday
+            const isNationalHoliday = HOLIDAYS[dateStr];
+            const userHolidays = tasks.filter(t => t.date === dateStr && t.isHoliday);
+            const hasHoliday = isNationalHoliday || userHolidays.length > 0;
+            
+            // Cell background
+            doc.setDrawColor(226, 232, 240);
+            doc.setLineWidth(0.1);
+            
+            if (hasHoliday) {
+                doc.setFillColor(241, 245, 249);
+            } else {
+                doc.setFillColor(255, 255, 255);
+            }
+            doc.rect(cellX, cellY, cellW, cellH, 'FD');
+            
+            // Day number
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10);
+            
+            if (hasHoliday) {
+                doc.setFillColor(190, 18, 60);
+                doc.roundedRect(cellX + 3, cellY + 2, 12, 6, 1, 1, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.text(String(day), cellX + 9, cellY + 6.5, { align: 'center' });
+            } else {
+                doc.setTextColor(156, 163, 175);
+                doc.text(String(day), cellX + 3, cellY + 5);
+            }
+            
+            // Tasks
+            let yOffset = cellY + 12;
+            const maxTasksPerCell = 4;
+            
+            // Add national holiday
+            if (isNationalHoliday) {
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(6);
+                doc.setTextColor(190, 18, 60);
+                const holidayText = doc.splitTextToSize(isNationalHoliday, cellW - 6);
+                doc.text(holidayText[0] || isNationalHoliday, cellX + 3, yOffset);
+                yOffset += 3.5;
+            }
+            
+            // Add user holidays
+            userHolidays.slice(0, maxTasksPerCell).forEach(holiday => {
+                if (yOffset > cellY + cellH - 3) return;
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(6);
+                doc.setTextColor(190, 18, 60);
+                const text = doc.splitTextToSize(holiday.title, cellW - 6);
+                doc.text(text[0] || holiday.title, cellX + 3, yOffset);
+                yOffset += 3.5;
+            });
+            
+            // Add regular tasks
+            const dayTasks = tasks.filter(t => t.date === dateStr && !t.isHoliday);
+            const tasksToShow = dayTasks.slice(0, maxTasksPerCell - (userHolidays.length + (isNationalHoliday ? 1 : 0)));
+            
+            tasksToShow.forEach(task => {
+                if (yOffset > cellY + cellH - 3) return;
+                
+                // Color indicator
+                const rgb = hexToRgb(task.color);
+                doc.setFillColor(rgb.r, rgb.g, rgb.b);
+                doc.circle(cellX + 4, yOffset - 1, 0.8, 'F');
+                
+                // Task text
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(6);
+                doc.setTextColor(55, 65, 81);
+                const taskText = task.time ? `${task.time} ${task.title}` : task.title;
+                const text = doc.splitTextToSize(taskText, cellW - 9);
+                doc.text(text[0] || taskText, cellX + 7, yOffset);
+                yOffset += 3.5;
+            });
+            
+            // More indicator
+            const totalTasks = dayTasks.length + userHolidays.length + (isNationalHoliday ? 1 : 0);
+            const shown = tasksToShow.length + userHolidays.length + (isNationalHoliday ? 1 : 0);
+            if (totalTasks > shown) {
+                doc.setFont('helvetica', 'italic');
+                doc.setFontSize(6);
+                doc.setTextColor(156, 163, 175);
+                doc.text(`+${totalTasks - shown} más...`, cellX + 3, cellY + cellH - 2);
+            }
+            
+            // Move to next cell
+            currentCol++;
+            if (currentCol >= cols) {
+                currentCol = 0;
+                currentRow++;
+            }
+        }
+        
+        // Footer
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        doc.setTextColor(160, 160, 160);
+        const totalPages = monthsToGenerate.length;
+        doc.text(`Página ${pageNum + 1} de ${totalPages}`, pageW / 2, pageH - 5, { align: 'center' });
+    });
+    
+    const filename = monthFilter === 'all'
+        ? `calendario_${userName.toLowerCase().replace(/\s+/g, '_')}_2026.pdf`
+        : `calendario_${MONTH_NAMES_PDF[parseInt(monthFilter)].toLowerCase()}_${userName.toLowerCase().replace(/\s+/g, '_')}_2026.pdf`;
+    
+    doc.save(filename);
+}
+
+function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : { r: 0, g: 0, b: 0 };
+}
+
+</script>
+
+</body>
+</html>
